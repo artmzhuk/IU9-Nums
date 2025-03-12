@@ -12,6 +12,9 @@ func Evaluate(xVals, a, b, c, d []float64, xArg float64) float64 {
 			break
 		}
 	}
+	if xArg == xVals[n-1] {
+		i = n - 2 // Берем последний интервал
+	}
 
 	dx := xArg - xVals[i]
 	return a[i] + b[i]*dx + c[i]*dx*dx + d[i]*dx*dx*dx
