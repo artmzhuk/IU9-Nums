@@ -3,10 +3,9 @@ from scipy.integrate import quad
 
 EPS = 0.001
 
-
 def func(x):
     return 4 * math.atan(x) / (x * x + 1)
-
+ 
 
 def trap_method(f, a, b):
     n_arr, I_h_arr, R_arr = [], [], []
@@ -39,7 +38,6 @@ def simp_method(f, a, b):
         R_arr.append(R)
     return n_arr, I_h_arr, R_arr
 
-
 def mid_rect_method(f, a, b):
     n_arr, I_h_arr, R_arr = [], [], []
     n, R, I_h = 1, 1, 0
@@ -55,18 +53,16 @@ def mid_rect_method(f, a, b):
         R_arr.append(R)
     return n_arr, I_h_arr, R_arr
 
-
 if __name__ == "__main__":
     n_t, I_t, R_t = trap_method(func, 0, 4)
     n_s, I_s, R_s = simp_method(func, 0, 4)
     n_m, I_m, R_m = mid_rect_method(func, 0, 4)
     I, err = quad(func, 0, 4)
 
-    print("EPS=", EPS, "\t\tI=", I)
+    print("EPS=",EPS, "\t\tI=",I)
 
-    print("1Метод: \tТрапеции \t\tСимпсона")
-    print("n \t\t", n_t[-1],"\t\t\t\t", n_s[-1])
-    print("I*\t\t", I_t[-1], "\t\t", I_s[-1])
-    print("R \t\t", R_t[-1], "\t", R_s[-1])
-    print("I*+R\t\t", I_t[-1] + R_t[-1], "\t\t", I_s[-1] + R_s[-1])
-# 3.515552731850111
+    print("1Метод: \tТрапеции \t\t\tСимпсона \t\t\tСредних прямоугольников")
+    print("n \t\t", n_t[-1], "\t\t\t\t", n_s[-1], "\t\t\t\t", n_m[-1])
+    print("I*\t\t", I_t[-1], "\t\t", I_s[-1], "\t\t", I_m[-1])
+    print("R \t\t", R_t[-1], "\t", R_s[-1], "\t", R_m[-1])
+    print("I*+R\t\t", I_t[-1] + R_t[-1], "\t\t", I_s[-1] + R_s[-1], "\t\t", I_m[-1] + R_m[-1])
