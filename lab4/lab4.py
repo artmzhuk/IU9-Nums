@@ -7,7 +7,7 @@ class RootFinder:
         self.tolerance = tolerance
 
     def evaluate_function(self, x_value):
-        return 2 * x_value ** 3 + 9 * x_value ** 2 + 10
+        return 2 * x_value ** 3 + 9 * x_value ** 2 - 10
 
     def evaluate_derivative(self, x_value):
         return 6 * x_value ** 2 + 18 * x_value
@@ -29,14 +29,19 @@ class RootFinder:
 
     def find_root_newton(self, initial_guess, max_iterations=100):
         current_x = initial_guess
-        previous_x = initial_guess + 2 * self.tolerance
+        previous_x = initial_guess + 2 * self.tolerance  # Инициализация для первой итерации
+
         for iteration in range(max_iterations):
             func_value = self.evaluate_function(current_x)
             deriv_value = self.evaluate_derivative(current_x)
 
-            eps = self.tolerance
-            test_x = current_x + np.sign(current_x - previous_x) * eps if iteration > 0 else current_x + eps
+            # условие 1: Проверка смены знака в ε-окрестности
+            test_x = current_x + np.sign(current_x - previous_x) * self.tolerance
             if func_value * self.evaluate_function(test_x) < 0:
+                actual_error = abs(func_value)
+                return current_x, iteration + 1, actual_error
+
+            if abs(func_value) < self.tolerance:
                 actual_error = abs(func_value)
                 return current_x, iteration + 1, actual_error
 
@@ -45,6 +50,8 @@ class RootFinder:
 
             previous_x = current_x
             current_x = current_x - func_value / deriv_value
+
+        return None, max_iterations, None
 
 
 
@@ -78,6 +85,8 @@ class RootFinder:
         plt.title(f"График функции с отмеченными корнями (требуемая точность ε = {self.tolerance})")
         plt.xlabel("x")
         plt.ylabel("f(x)")
+        plt.ylim(-20, 20)
+        plt.xlim(-20, 20)
         plt.legend()
         plt.grid()
         plt.show()
